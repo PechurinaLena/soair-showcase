@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #f97316;
+  --color-secondary: #1a1a2e;
+  --color-background: #faf8f5;
+  --color-card: #ffffff;
+  --color-accentLight: #fff7ed;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--color-background);
+  color: var(--color-secondary);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #fff7ed 0%, #faf8f5 50%, #fed7aa33 100%);
+}
+
+.fade-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.phone-frame {
+  border-radius: 2.5rem;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  aspect-ratio: 412/917;
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 22px;
+  background: #1a1a2e;
+  border-radius: 0 0 1rem 1rem;
+  z-index: 10;
+}
