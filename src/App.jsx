@@ -43,210 +43,17 @@ function Reveal({ children, variants = fromBottom, delay = 0, className = '' }) 
   );
 }
 
-// ─── Phone Mockup — iPhone 16 Pro Max style ──────────────────────────────────
-//
-// Layout (outside → inside):
-//   [titanium frame]  3px border, border-radius 50px, bg #1a1a1a
-//     [screen glass]  overflow:hidden, border-radius 44px, inset 4px all sides
-//       [screen img]  absolute inset-0, object-cover
-//       [dynamic island]  absolute, centered pill, top 10px
-//       [status bar]      absolute top-0, sits beside the island
-//   [side buttons]    absolute divs on left/right edges of the frame
-//
-function Phone({ src, alt = '', width = 240, style = {}, hover = true }) {
-  const FRAME_R   = 50;   // outer frame border-radius (px)
-  const SCREEN_R  = 44;   // inner screen border-radius (px)
-  const BORDER    = 3;    // titanium frame thickness (px)
-  const INSET     = 4;    // gap between frame inner edge and screen edge (px)
-  const height    = Math.round(width * (19.5 / 9));
-
-  // Scale every dimension relative to the reference width of 240px
-  const s = width / 240;
-  const di = { w: Math.round(120 * s), h: Math.round(34 * s), r: Math.round(20 * s), top: Math.round(10 * s) };
-
-  // Side button geometry (scaled)
-  const btnRight  = { w: Math.round(4  * s), top: Math.round(120 * s), h: Math.round(80 * s), r: 3 };
-  const volTop    = { w: Math.round(4  * s), top: Math.round(100 * s), h: Math.round(56 * s), r: 3 };
-  const volBot    = { w: Math.round(4  * s), top: Math.round(170 * s), h: Math.round(56 * s), r: 3 };
-  const silentSw  = { w: Math.round(4  * s), top: Math.round(60  * s), h: Math.round(32 * s), r: 3 };
-
-  const btnBase = {
-    position: 'absolute',
-    background: '#2c2c2e',
-    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)',
-  };
-
-  return (
-    <motion.div
-      style={{
-        position: 'relative',
-        width,
-        height,
-        flexShrink: 0,
-        borderRadius: FRAME_R,
-        background: 'linear-gradient(160deg, #2e2e2e 0%, #1c1c1c 50%, #242424 100%)',
-        ...style,
-      }}
-      whileHover={hover ? { y: -8 } : undefined}
-      transition={{ duration: 0.25, ease: 'easeOut' }}
-    >
-      {/* ── Right side: power button ── */}
-      <div style={{
-        ...btnBase,
-        right: -btnRight.w,
-        top: btnRight.top,
-        width: btnRight.w,
-        height: btnRight.h,
-        borderRadius: `0 ${btnRight.r}px ${btnRight.r}px 0`,
-      }} />
-
-      {/* ── Left side: silent switch ── */}
-      <div style={{
-        ...btnBase,
-        left: -silentSw.w,
-        top: silentSw.top,
-        width: silentSw.w,
-        height: silentSw.h,
-        borderRadius: `${silentSw.r}px 0 0 ${silentSw.r}px`,
-      }} />
-
-      {/* ── Left side: volume up ── */}
-      <div style={{
-        ...btnBase,
-        left: -volTop.w,
-        top: volTop.top,
-        width: volTop.w,
-        height: volTop.h,
-        borderRadius: `${volTop.r}px 0 0 ${volTop.r}px`,
-      }} />
-
-      {/* ── Left side: volume down ── */}
-      <div style={{
-        ...btnBase,
-        left: -volBot.w,
-        top: volBot.top,
-        width: volBot.w,
-        height: volBot.h,
-        borderRadius: `${volBot.r}px 0 0 ${volBot.r}px`,
-      }} />
-
-      {/* ── Titanium frame ring (border only — background transparent so screen shows through) ── */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        borderRadius: FRAME_R,
-        border: `${BORDER}px solid #2a2a2a`,
-        background: 'transparent',
-        boxShadow: [
-          '0 40px 80px rgba(0,0,0,0.25)',
-          'inset 0 0 0 1px rgba(255,255,255,0.08)',
-          '0 0 0 1px rgba(0,0,0,0.5)',
-        ].join(', '),
-        zIndex: 3,
-        pointerEvents: 'none',
-      }} />
-
-      {/* ── Screen glass (clipping layer) ── */}
-      <div style={{
-        position: 'absolute',
-        top:    BORDER + INSET,
-        left:   BORDER + INSET,
-        right:  BORDER + INSET,
-        bottom: BORDER + INSET,
-        borderRadius: SCREEN_R,
-        overflow: 'hidden',
-        background: '#fff',
-        zIndex: 1,
-      }}>
-        {/* Screen image */}
-        {src ? (
-          <img
-            src={src}
-            alt={alt}
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'top',
-              display: 'block',
-            }}
-            draggable={false}
-          />
-        ) : (
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(160deg, #1c1c1e, #2c2c2e)',
-          }} />
-        )}
-
-        {/* Dynamic Island */}
-        <div style={{
-          position: 'absolute',
-          top: di.top,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: di.w,
-          height: di.h,
-          borderRadius: di.r,
-          background: '#000',
-          zIndex: 20,
-          boxShadow: '0 0 0 1.5px rgba(255,255,255,0.06)',
-        }} />
-
-        {/* Status bar — time left, icons right, flanking the island */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0,
-          height: di.top * 2 + di.h,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          paddingLeft: Math.round(22 * s),
-          paddingRight: Math.round(22 * s),
-          zIndex: 15,
-        }}>
-          <span style={{
-            fontSize: Math.round(11 * s),
-            fontWeight: 600,
-            color: 'rgba(255,255,255,0.88)',
-            letterSpacing: 0,
-            fontVariantNumeric: 'tabular-nums',
-          }}>
-            9:41
-          </span>
-          <StatusIcons scale={s} light />
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function StatusIcons({ scale = 1, light = false }) {
-  const c = light ? 'rgba(255,255,255,0.88)' : 'rgba(15,23,42,0.85)';
-  const w = Math.round(16 * scale);
-  const wf = Math.round(14 * scale);
-  const wb = Math.round(24 * scale);
-  const h  = Math.round(11 * scale);
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: Math.round(4 * scale), color: c }}>
-      {/* Signal bars */}
-      <svg width={w} height={h} viewBox="0 0 16 11" fill="none">
-        <rect x="0" y="7" width="2.5" height="4" rx="0.5" fill="currentColor" />
-        <rect x="3.5" y="4.5" width="2.5" height="6.5" rx="0.5" fill="currentColor" />
-        <rect x="7" y="2" width="2.5" height="9" rx="0.5" fill="currentColor" />
-        <rect x="10.5" y="0" width="2.5" height="11" rx="0.5" fill="currentColor" />
-      </svg>
-      {/* Wi-Fi */}
-      <svg width={wf} height={h} viewBox="0 0 14 11" fill="none">
-        <circle cx="7" cy="10" r="1.2" fill="currentColor" />
-        <path d="M4 7.5C5 6.3 9 6.3 10 7.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-        <path d="M1.5 5C3.5 2.8 10.5 2.8 12.5 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none" />
-      </svg>
-      {/* Battery */}
-      <svg width={wb} height={h} viewBox="0 0 24 11" fill="none">
-        <rect x="0.5" y="0.5" width="19" height="10" rx="2.5" stroke="currentColor" strokeWidth="1" />
-        <rect x="2" y="2" width="14" height="7" rx="1.2" fill="currentColor" />
-        <path d="M21 3.5v4c1-.5 1-3.5 0-4z" fill="currentColor" />
-      </svg>
-    </div>
-  );
-}
+// ─── Phone — bare image wrapper (screenshots already include the iPhone frame) ─
+const Phone = ({ src, alt = '', width = 240, style = {} }) => (
+  <div style={{ width, ...style }}>
+    <img
+      src={src}
+      alt={alt}
+      style={{ width: '100%', height: 'auto', display: 'block' }}
+      draggable={false}
+    />
+  </div>
+);
 
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
@@ -385,7 +192,9 @@ function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0,
           padding: '4px 18px 0', zIndex: 20,
         }}>
           <span style={{ fontSize: 10, fontWeight: 600, color: 'rgba(15,23,42,0.8)' }}>9:41</span>
-          <StatusIcons />
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+            <span style={{ fontSize: 10, color: 'rgba(15,23,42,0.6)' }}>●●●</span>
+          </div>
         </div>
         {/* Screen image — fills entire frame */}
         <img
@@ -797,12 +606,6 @@ function AllScreens() {
                   src={img(file)}
                   alt={label}
                   width={186}
-                  hover={false}
-                  style={{
-                    boxShadow: isActive
-                      ? '0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,115,22,0.25)'
-                      : '0 16px 40px rgba(0,0,0,0.3)',
-                  }}
                 />
                 <span
                   className="text-[11px] font-semibold uppercase tracking-[0.15em] transition-colors duration-300"
