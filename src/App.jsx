@@ -154,7 +154,7 @@ function Navbar() {
 const PHONE_CENTER_W  = 210;
 const PHONE_SIDE_W    = 172;
 // Height derived from 9:19.5 ratio
-const phoneH = (w) => Math.round(w * 19.5 / 9);
+const phoneH = (w) => Math.round(w * 19.5 / 8.5);
 
 function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1, shadow = false }) {
   return (
@@ -167,7 +167,7 @@ function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0,
         style={{
           width,
           height: phoneH(width),
-          borderRadius: '2.5rem',
+          borderRadius: '1rem',
           border: '1.5px solid rgba(0,0,0,0.08)',
           boxShadow: shadow
             ? '0 40px 80px rgba(0,0,0,0.22), 0 16px 32px rgba(0,0,0,0.10)'
@@ -477,7 +477,8 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
         {/* Phones */}
         <motion.div
           className="flex-1 flex items-end justify-center gap-5"
-          style={{ minHeight: 460 }}
+          style={{ minHeight: 460, padding: '100px 0', width: '50%',
+             justifyContent:'space-around' }}
           variants={container(0.12)}
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
@@ -541,14 +542,15 @@ function AllScreens() {
   }, []);
 
   return (
-    <section id="screens" className="bg-[#0f172a] py-24 overflow-hidden">
+    <section id="screens" className="bg-[#faf8f5] py-24 overflow-hidden" 
+    style={{ padding:'100px 0'}}>
       {/* Title */}
       <div ref={titleRef} className="max-w-7xl mx-auto px-8 mb-16 text-center">
         <motion.p
           variants={fromBottom}
           initial="hidden"
           animate={titleInView ? 'show' : 'hidden'}
-          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f97316] mb-3"
+          className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#f97316] mb-3"
         >
           Full Walkthrough
         </motion.p>
@@ -566,7 +568,7 @@ function AllScreens() {
           initial="hidden"
           animate={titleInView ? 'show' : 'hidden'}
           transition={{ delay: 0.16 }}
-          className="text-[15px] text-slate-400 mt-3 max-w-md mx-auto"
+          className="text-[16px] text-slate-400 mt-3 max-w-md mx-auto"
         >
           From onboarding to booking confirmation — every screen in one place.
         </motion.p>
@@ -636,9 +638,13 @@ function AllScreens() {
             }}
             className="transition-all duration-300 rounded-full"
             style={{
-              width: i === activeIdx ? 20 : 6,
+              width: i === activeIdx ? 25 : 6,
               height: 6,
               background: i === activeIdx ? '#f97316' : 'rgba(148,163,184,0.35)',
+              margin: '30px 0 0 0', 
+              color: '#0f171a',
+              margin: '30px 7px',
+              border: '1px solid #ccc'
             }}
           />
         ))}
@@ -650,8 +656,8 @@ function AllScreens() {
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="bg-[#0f172a] border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-[14px] text-slate-500">
+    <footer className="bg-[#faf8f5]">
+      <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-[16px] text-slate-500">
         <div className="flex items-center gap-3">
           <span className="font-display text-[18px] font-bold">
             <span className="text-[#f97316]">So</span>
@@ -670,6 +676,7 @@ function Footer() {
             { label: 'Email', href: 'mailto:hello@example.com' },
           ].map(({ label, href }) => (
             <a
+            style={{ margin: '20px 10px', fontSize: '16px'}}
               key={label}
               href={href}
               target={label !== 'Email' ? '_blank' : undefined}
@@ -688,7 +695,7 @@ function Footer() {
 // ─── APP ──────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-[#faf9f5]">
       <Navbar />
       <Hero />
 
