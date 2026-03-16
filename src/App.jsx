@@ -456,7 +456,7 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
         >
           <motion.span
             variants={reverse ? fromRight : fromLeft}
-            className="inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f97316] mb-4"
+            className="inline-block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#f97316] mb-4"
           >
             {tag}
           </motion.span>
@@ -477,7 +477,7 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
         {/* Phones */}
         <motion.div
           className="flex-1 flex items-end justify-center gap-5"
-          style={{ minHeight: 460, padding: '100px 0', width: '50%',
+          style={{ minHeight: 460, padding: '100px 0',
              justifyContent:'space-around' }}
           variants={container(0.12)}
           initial="hidden"
@@ -489,7 +489,7 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
               variants={reverse ? fromLeft : fromRight}
               style={{ marginBottom: lift }}
             >
-              <Phone src={img(file)} alt={alt} width={w} />
+              <Phone src={img(file)} alt={alt} width={w} style={{margin: '0 40px'}} />
             </motion.div>
           ))}
         </motion.div>
@@ -543,7 +543,7 @@ function AllScreens() {
 
   return (
     <section id="screens" className="bg-[#faf8f5] py-24 overflow-hidden" 
-    style={{ padding:'100px 0'}}>
+    style={{ padding:'100px 0 50px 0'}}>
       {/* Title */}
       <div ref={titleRef} className="max-w-7xl mx-auto px-8 mb-16 text-center">
         <motion.p
@@ -578,9 +578,12 @@ function AllScreens() {
       <div
         ref={scrollRef}
         className="overflow-x-auto scrollbar-none snap-x-mandatory"
-        style={{ paddingLeft: 'max(48px, calc(50vw - 104px))', paddingRight: 'max(48px, calc(50vw - 104px))', paddingBottom: 24 }}
+        style={{ paddingLeft: 'max(48px, calc(50vw - 104px))', 
+          paddingRight: 'max(48px, calc(50vw - 104px))', paddingBottom: 24, 
+          marginTop: '50px',  height: '550px', 
+          display: 'flex', alignItems: 'center' }}
       >
-        <div className="flex gap-7 w-max">
+        <div className="flex gap-7 w-full items-center h-5">
           {ALL_SCREENS.map(({ label, file }, i) => {
             const isActive = i === activeIdx;
             const isAdjacent = Math.abs(i - activeIdx) === 1;
@@ -603,6 +606,7 @@ function AllScreens() {
                     el.scrollTo({ left: card.offsetLeft - el.clientWidth / 2 + card.offsetWidth / 2, behavior: 'smooth' });
                   }
                 }}
+                style={{ margin: '0 20px'}}
               >
                 <Phone
                   src={img(file)}
@@ -610,8 +614,8 @@ function AllScreens() {
                   width={186}
                 />
                 <span
-                  className="text-[11px] font-semibold uppercase tracking-[0.15em] transition-colors duration-300"
-                  style={{ color: isActive ? '#f97316' : 'rgba(148,163,184,0.8)' }}
+                  className="text-[12px] font-semibold uppercase tracking-[0.15em] transition-colors duration-300"
+                  style={{ color: isActive ? '#f97316' : 'rgba(148,163,184,0.8)', marginTop: '5px' }}
                 >
                   {label}
                 </span>
@@ -657,7 +661,8 @@ function AllScreens() {
 function Footer() {
   return (
     <footer className="bg-[#faf8f5]">
-      <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-[16px] text-slate-500">
+      <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col sm:flex-row items-center
+       justify-between gap-5 text-[16px] text-slate-500" style={{padding: '50px 0 30px 0'}}>
         <div className="flex items-center gap-3">
           <span className="font-display text-[18px] font-bold">
             <span className="text-[#f97316]">So</span>
