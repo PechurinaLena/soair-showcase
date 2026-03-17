@@ -156,56 +156,7 @@ const PHONE_SIDE_W    = 172;
 // Height derived from 9:19.5 ratio
 const phoneH = (w) => Math.round(w * 19.5 / 9.5);
 
-// function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1, shadow = false }) {
-//   return (
-//     <motion.div
-//       animate={{ y: [-floatAmp, floatAmp, -floatAmp] }}
-//       transition={{ duration: 3.2 + floatDelay * 0.6, ease: 'easeInOut', repeat: Infinity, delay: floatDelay }}
-//       style={{ flexShrink: 0, opacity }}
-//     >
-//       <div
-//         style={{
-//           width,
-//           height: phoneH(width),
-//           borderRadius: '1rem',
-//           border: '1.5px solid rgba(0,0,0,0.08)',
-//           boxShadow: shadow
-//             ? '0 40px 80px rgba(0,0,0,0.22), 0 16px 32px rgba(0,0,0,0.10)'
-//             : '0 20px 48px rgba(0,0,0,0.13), 0 6px 16px rgba(0,0,0,0.07)',
-//           background: '#fff',
-//           overflow: 'hidden',
-//           position: 'relative',
-//           transform: `rotate(${rotate}deg)`,
-//           transformOrigin: 'bottom center',
-//         }}
-//       >
-//         {/* Notch */}
-//         <div style={{
-//           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-//           width: 72, height: 22, background: '#0a0a12',
-//           borderRadius: '0 0 14px 14px', zIndex: 30,
-//         }} />
-//         {/* Screen image — fills entire frame */}
-//         <img
-//           src={src}
-//           alt={alt}
-//           style={{
-//             position: 'absolute', inset: 0,
-//             width: '100%', height: '100%',
-//             objectFit: 'cover', objectPosition: 'top',
-//             display: 'block',
-//           }}
-//           draggable={false}
-//         />
-//       </div>
-//     </motion.div>
-//   );
-// }
-
-function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1, shadow = false }) {
-  // 1. Считаем ЧИСТУЮ высоту телефона по пропорции 19.5/9.5
-  const height = Math.round(width * 19.5 / 9.5);
-
+function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1 }) {
   return (
     <motion.div
       animate={{ y: [-floatAmp, floatAmp, -floatAmp] }}
@@ -218,41 +169,21 @@ function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0,
       style={{ 
         flexShrink: 0, 
         opacity,
-        // 2. ДАЕМ ЗАПАС МЕСТА СНИЗУ, чтобы не обрезалось при парении
-        paddingBottom: '60px', 
-        overflow: 'visible' 
+        overflow: 'visible',
       }}
     >
-      <div
-        style={{
-          width: width,
-          height: height,
-          borderRadius: '1.5rem', // Чуть больше скругление для мягкости
-          border: '1.5px solid rgba(0,0,0,0.08)',
-          boxShadow: shadow 
-            ? '0 30px 60px rgba(0,0,0,0.12), 0 10px 20px rgba(0,0,0,0.08)' 
-            : '0 15px 35px rgba(0,0,0,0.1)',
-          background: '#fff',
-          position: 'relative',
-          transform: `rotate(${rotate}deg)`,
-          transformOrigin: 'bottom center',
-          // 3. ЭТОТ OVERFLOW НУЖЕН ТОЛЬКО ТУТ, чтобы скруглить углы картинки
-          overflow: 'hidden', 
-        }}
-      >
-        {/* 4. КАРТИНКА: Обязательно object-fit, чтобы не тянулась */}
-        <img 
-          src={src} 
-          alt={alt} 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover',
-            display: 'block' 
-          }} 
-        />
-
-      </div>
+      <img 
+  src={src} 
+  alt={alt} 
+  style={{ 
+    width: width,
+    height: 'auto',
+    display: 'block',
+    transform: `rotate(${rotate}deg)`,
+    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.15))',
+  }} 
+  draggable={false}
+/>
     </motion.div>
   );
 }
@@ -418,61 +349,57 @@ function Hero() {
             </motion.div>
           </motion.div>
 
-          ── Column 2: Phones — flex row, no absolute positioning ──
-          <motion.div
-            variants={container(0.13)}
-            initial="hidden"
-            animate="show"
-            style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              gap: 16,
-              // Extra vertical room so float animation never clips
-              paddingTop: 40,
-              paddingBottom: 40,
-            }}
-          >
-            {/* Left phone */}
-            <motion.div variants={fromRight} style={{ marginBottom: 32 }}>
-              <HeroPhone
-                src={img('onboarding1.png')}
-                alt="Onboarding"
-                width={PHONE_SIDE_W}
-                rotate={-12}
-                opacity={0.8}
-                floatDelay={0.6}
-                floatAmp={7}
-              />
-            </motion.div>
+          {/* ── Column 2: Phones — flex row, no absolute positioning ── */}
+<motion.div
+  variants={container(0.13)}
+  initial="hidden"
+  animate="show"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 50,
+    paddingTop: '100px', 
+    paddingBottom: '120px', 
+    overflow: 'visible', 
+    position: 'relative'
+  }}
+>
+  {/* Left phone */}
+  <motion.div variants={fromRight} style={{ transform: 'translateY(-30px)', overflow: 'visible' }}>
+    <HeroPhone 
+       src={img('onboarding1.png')} 
+       width={PHONE_SIDE_W} 
+       rotate={-12} 
+       opacity={0.8} 
+       floatDelay={0.6} 
+       floatAmp={7} 
+    />
+  </motion.div>
 
-            {/* Center phone — tallest, shadow, bigger float */}
-            <motion.div variants={fromRight}>
-              <HeroPhone
-                src={img('welcome.png')}
-                alt="Welcome"
-                width={PHONE_CENTER_W}
-                rotate={0}
-                opacity={1}
-                shadow
-                floatDelay={0}
-                floatAmp={10}
-              />
-            </motion.div>
+  {/*  Central phone */}
+  <motion.div variants={fromRight} style={{ overflow: 'visible' }}>
+    <HeroPhone 
+       src={img('welcome.png')} 
+       width={PHONE_CENTER_W} 
+       rotate={0} 
+       shadow 
+       floatAmp={10} 
+    />
+  </motion.div>
 
-            {/* Right phone */}
-            <motion.div variants={fromRight} style={{ marginBottom: 32 }}>
-              <HeroPhone
-                src={img('home.png')}
-                alt="Home"
-                width={PHONE_SIDE_W}
-                rotate={12}
-                opacity={0.8}
-                floatDelay={1.1}
-                floatAmp={8}
-              />
-            </motion.div>
-          </motion.div>
+  {/* Right phone */}
+  <motion.div variants={fromRight} style={{ transform: 'translateY(-30px)', overflow: 'visible' }}>
+    <HeroPhone 
+       src={img('home.png')} 
+       width={PHONE_SIDE_W} 
+       rotate={12} 
+       opacity={0.8} 
+       floatDelay={1.1} 
+       floatAmp={8} 
+    />
+  </motion.div>
+</motion.div>
 
         </div>
       </div>
