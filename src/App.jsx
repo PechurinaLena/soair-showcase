@@ -95,7 +95,7 @@ function Navbar() {
       }}>
         {/* Logo */}
         <a href="#overview" style={{ textDecoration: 'none', userSelect: 'none' }}
-          className="font-display text-[22px] font-bold tracking-tight">
+          className="font-display text-[22px] font-bold tracking-tight" >
           <span style={{ color: '#f97316' }}>So</span>
           <span style={{ color: '#0f172a' }}>Air</span>
         </a>
@@ -154,60 +154,104 @@ function Navbar() {
 const PHONE_CENTER_W  = 210;
 const PHONE_SIDE_W    = 172;
 // Height derived from 9:19.5 ratio
-const phoneH = (w) => Math.round(w * 19.5 / 8.5);
+const phoneH = (w) => Math.round(w * 19.5 / 9.5);
+
+// function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1, shadow = false }) {
+//   return (
+//     <motion.div
+//       animate={{ y: [-floatAmp, floatAmp, -floatAmp] }}
+//       transition={{ duration: 3.2 + floatDelay * 0.6, ease: 'easeInOut', repeat: Infinity, delay: floatDelay }}
+//       style={{ flexShrink: 0, opacity }}
+//     >
+//       <div
+//         style={{
+//           width,
+//           height: phoneH(width),
+//           borderRadius: '1rem',
+//           border: '1.5px solid rgba(0,0,0,0.08)',
+//           boxShadow: shadow
+//             ? '0 40px 80px rgba(0,0,0,0.22), 0 16px 32px rgba(0,0,0,0.10)'
+//             : '0 20px 48px rgba(0,0,0,0.13), 0 6px 16px rgba(0,0,0,0.07)',
+//           background: '#fff',
+//           overflow: 'hidden',
+//           position: 'relative',
+//           transform: `rotate(${rotate}deg)`,
+//           transformOrigin: 'bottom center',
+//         }}
+//       >
+//         {/* Notch */}
+//         <div style={{
+//           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+//           width: 72, height: 22, background: '#0a0a12',
+//           borderRadius: '0 0 14px 14px', zIndex: 30,
+//         }} />
+//         {/* Screen image — fills entire frame */}
+//         <img
+//           src={src}
+//           alt={alt}
+//           style={{
+//             position: 'absolute', inset: 0,
+//             width: '100%', height: '100%',
+//             objectFit: 'cover', objectPosition: 'top',
+//             display: 'block',
+//           }}
+//           draggable={false}
+//         />
+//       </div>
+//     </motion.div>
+//   );
+// }
 
 function HeroPhone({ src, alt, width, floatDelay = 0, floatAmp = 10, rotate = 0, opacity = 1, shadow = false }) {
+  // 1. Считаем ЧИСТУЮ высоту телефона по пропорции 19.5/9.5
+  const height = Math.round(width * 19.5 / 9.5);
+
   return (
     <motion.div
       animate={{ y: [-floatAmp, floatAmp, -floatAmp] }}
-      transition={{ duration: 3.2 + floatDelay * 0.6, ease: 'easeInOut', repeat: Infinity, delay: floatDelay }}
-      style={{ flexShrink: 0, opacity }}
+      transition={{ 
+        duration: 3.2 + floatDelay * 0.6, 
+        ease: 'easeInOut', 
+        repeat: Infinity,
+        delay: floatDelay 
+      }}
+      style={{ 
+        flexShrink: 0, 
+        opacity,
+        // 2. ДАЕМ ЗАПАС МЕСТА СНИЗУ, чтобы не обрезалось при парении
+        paddingBottom: '60px', 
+        overflow: 'visible' 
+      }}
     >
       <div
         style={{
-          width,
-          height: phoneH(width),
-          borderRadius: '1rem',
+          width: width,
+          height: height,
+          borderRadius: '1.5rem', // Чуть больше скругление для мягкости
           border: '1.5px solid rgba(0,0,0,0.08)',
-          boxShadow: shadow
-            ? '0 40px 80px rgba(0,0,0,0.22), 0 16px 32px rgba(0,0,0,0.10)'
-            : '0 20px 48px rgba(0,0,0,0.13), 0 6px 16px rgba(0,0,0,0.07)',
+          boxShadow: shadow 
+            ? '0 30px 60px rgba(0,0,0,0.12), 0 10px 20px rgba(0,0,0,0.08)' 
+            : '0 15px 35px rgba(0,0,0,0.1)',
           background: '#fff',
-          overflow: 'hidden',
           position: 'relative',
           transform: `rotate(${rotate}deg)`,
           transformOrigin: 'bottom center',
+          // 3. ЭТОТ OVERFLOW НУЖЕН ТОЛЬКО ТУТ, чтобы скруглить углы картинки
+          overflow: 'hidden', 
         }}
       >
-        {/* Notch */}
-        <div style={{
-          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-          width: 72, height: 22, background: '#0a0a12',
-          borderRadius: '0 0 14px 14px', zIndex: 30,
-        }} />
-        {/* Status bar */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: 40,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '4px 18px 0', zIndex: 20,
-        }}>
-          <span style={{ fontSize: 10, fontWeight: 600, color: 'rgba(15,23,42,0.8)' }}>9:41</span>
-          <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-            <span style={{ fontSize: 10, color: 'rgba(15,23,42,0.6)' }}>●●●</span>
-          </div>
-        </div>
-        {/* Screen image — fills entire frame */}
-        <img
-          src={src}
-          alt={alt}
-          style={{
-            position: 'absolute', inset: 0,
-            width: '100%', height: '100%',
-            objectFit: 'cover', objectPosition: 'top',
-            display: 'block',
-          }}
-          draggable={false}
+        {/* 4. КАРТИНКА: Обязательно object-fit, чтобы не тянулась */}
+        <img 
+          src={src} 
+          alt={alt} 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            display: 'block' 
+          }} 
         />
+
       </div>
     </motion.div>
   );
@@ -241,6 +285,7 @@ function Hero() {
         width: 320, height: 320, borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)',
         pointerEvents: 'none',
+        opacity: 0.15,
       }} />
       {/* Faint orange circle mid-left */}
       <div style={{
@@ -258,9 +303,9 @@ function Hero() {
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        opacity: 0.04,
+        opacity: 0.02,
         pointerEvents: 'none',
-        filter: 'blur(2px)',
+        filter: 'blur(10px)',
       }} />
 
       {/* ── Content ── */}
@@ -306,7 +351,7 @@ function Hero() {
                 margin: '0 0 22px',
               }}
             >
-              Soar to<br />
+              SoAir to<br />
               <span style={{ color: '#f97316' }}>New Heights</span>
             </motion.h1>
 
@@ -314,7 +359,7 @@ function Hero() {
             <motion.p
               variants={fromLeft}
               style={{
-                fontSize: 17, color: 'rgba(15,23,42,0.55)', lineHeight: 1.7,
+                fontSize: 18, color: 'rgba(15,23,42,0.55)', lineHeight: 1.4,
                 maxWidth: 420, margin: '0 0 36px',
               }}
             >
@@ -329,7 +374,7 @@ function Hero() {
             >
               <a href="#features" style={{
                 display: 'inline-flex', alignItems: 'center',
-                padding: '13px 26px', borderRadius: 999,
+                padding: '13px 26px', borderRadius: 30,
                 background: '#f97316', color: '#fff',
                 fontWeight: 600, fontSize: 14, textDecoration: 'none',
                 boxShadow: '0 8px 24px rgba(249,115,22,0.35)',
@@ -360,20 +405,20 @@ function Hero() {
               {[
                 { value: '13', label: 'Screens' },
                 { value: 'Figma', label: 'Tool' },
-                { value: '2024', label: 'Year' },
+                { value: '2025', label: 'Year' },
               ].map(({ value, label }, i) => (
                 <React.Fragment key={label}>
                   {i > 0 && <span style={{ width: 1, height: 30, background: 'rgba(15,23,42,0.1)', display: 'block' }} />}
                   <div>
-                    <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 21, fontWeight: 700, color: '#0f172a', margin: 0 }}>{value}</p>
-                    <p style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(15,23,42,0.38)', margin: '2px 0 0' }}>{label}</p>
+                    <p style={{ fontFamily: 'Syne, sans-serif', fontSize: 22, fontWeight: 700, color: '#0f172a', margin: '5px 0' }}>{value}</p>
+                    <p style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(15,23,42,0.38)', margin: '2px 0 0' }}>{label}</p>
                   </div>
                 </React.Fragment>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* ── Column 2: Phones — flex row, no absolute positioning ── */}
+          ── Column 2: Phones — flex row, no absolute positioning ──
           <motion.div
             variants={container(0.13)}
             initial="hidden"
@@ -455,7 +500,7 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
           animate={inView ? 'show' : 'hidden'}
         >
           <motion.span
-            variants={reverse ? fromRight : fromLeft}
+            variants={reverse ? fromLeft : fromRight}
             className="inline-block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#f97316] mb-4"
           >
             {tag}
@@ -467,7 +512,7 @@ function FeatureRow({ tag, title, description, phones, reverse = false, bg = 'bg
             {title}
           </motion.h2>
           <motion.p
-            variants={reverse ? fromRight : fromLeft}
+            variants={reverse ? fromLeft : fromRight}
             className="text-[16px] text-[#0f172a]/55 leading-relaxed max-w-[420px]"
           >
             {description}
@@ -708,7 +753,7 @@ export default function App() {
         {/* Feature 1: Easy Booking */}
         <FeatureRow
           tag="01 · Booking"
-          title={<>Easy<br />Booking</>}
+          title={<>Easy Booking</>}
           description="Find and book your perfect hot air balloon ride in just a few taps. Clear steps, upfront pricing — no surprises."
           phones={[
             { file: 'home.png', alt: 'Home', w: 180, lift: 40 },
@@ -722,7 +767,7 @@ export default function App() {
           reverse
           bg="bg-slate-50"
           tag="02 · Auth"
-          title={<>Save<br />Favorites</>}
+          title={<>Save Favorites</>}
           description="Create your account in seconds. Save favourite rides and manage your profile — adventures resume right where you left off."
           phones={[
             { file: 'login.png', alt: 'Log In', w: 200, lift: 40 },
@@ -733,7 +778,7 @@ export default function App() {
         {/* Feature 3: Secure Payment */}
         <FeatureRow
           tag="03 · Payment"
-          title={<>Secure<br />Payment</>}
+          title={<>Secure Payment</>}
           description="Multiple payment options with a reassuring checkout flow. Add a card or pay instantly — your adventure is one tap away."
           phones={[
             { file: 'payment.png', alt: 'Payment', w: 180, lift: 40 },
