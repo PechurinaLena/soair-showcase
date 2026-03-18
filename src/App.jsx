@@ -59,6 +59,24 @@ const Phone = ({ src, alt = "", width = 240, style = {} }) => (
   </div>
 );
 
+const Logo = ({ src, alt = "" , width = 100, style = {} }) => (
+  <div style= {{ width, ...style}}>
+       <a
+          href="/"
+          style={{ textDecoration: "none", userSelect: "none" }}
+          className="font-display text-[22px] font-bold tracking-tight"
+        >
+         <img 
+      src={src}
+      alt={alt}
+      style={{ width: '100%', height: 'auto', display: 'block'}}
+      draggable={false}
+      />
+        </a>
+
+  </div>
+);
+
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
   { label: "Overview", href: "#overview" },
@@ -101,7 +119,7 @@ function Navbar() {
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "0 32px",
+          padding: "0 30px",
           height: 68,
           display: "flex",
           alignItems: "center",
@@ -109,15 +127,10 @@ function Navbar() {
         }}
       >
         {/* Logo */}
-        <a
-          href="#overview"
-          style={{ textDecoration: "none", userSelect: "none" }}
-          className="font-display text-[22px] font-bold tracking-tight"
-        >
-          <span style={{ color: "#f97316" }}>So</span>
-          <span style={{ color: "#0f172a" }}>Air</span>
-        </a>
-
+        <div style={{ display: 'flex', width: '167px', justifyContent: 'flex-start'}}>
+           <Logo src={img("logo.png")} width={80} />
+        </div>
+        
         {/* Links — Overview · Features · Screens */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {NAV_LINKS.map(({ label, href }, i) => (
@@ -125,8 +138,8 @@ function Navbar() {
               {i > 0 && (
                 <span
                   style={{
-                    color: "rgba(15,23,42,0.2)",
-                    fontSize: 14,
+                    color: "#f97316",
+                    fontSize: 20,
                     userSelect: "none",
                     padding: "0 2px",
                   }}
@@ -851,37 +864,30 @@ function Footer() {
       <div
         className="max-w-7xl mx-auto px-8 py-10 flex flex-col sm:flex-row items-center
        justify-between gap-5 text-[16px] text-slate-500"
-        style={{ padding: "50px 0 30px 0" }}
+        style={{ padding: "50px 20px 30px", maxWidth: '1280px', margin: '0 auto' }}
       >
-        <div className="flex items-center gap-3">
-          <span className="font-display text-[18px] font-bold">
-            <span className="text-[#f97316]">So</span>
-            <span className="text-white">Air</span>
-          </span>
-          <span className="text-slate-600">·</span>
-          <span>
-            Designed by{" "}
-            <span className="text-white font-semibold">Elena Pechurina</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-7">
+        <div className="flex items-center gap-3" style={{ width: '100%', display: 'flex', justifyContent:'space-between', alignItems: 'center'}}>
+          <Logo src={img("logo.png")} width={80} />
+          <div className="flex items-center gap-7">
           {[
-            { label: "Behance", href: "https://www.behance.net" },
-            { label: "LinkedIn", href: "https://www.linkedin.com" },
-            { label: "Email", href: "mailto:hello@example.com" },
+            { label: "Behance", href: "https://www.behance.net/elenapechurina" },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/elena-pechurina" },
+            { label: "Telegram", href: "https://t.me/elena_pechurina" },
           ].map(({ label, href }) => (
             <a
-              style={{ margin: "20px 10px", fontSize: "16px" }}
+              style={{ margin: "30px 15px", fontSize: "14px", textDecoration: 'none'}}
               key={label}
               href={href}
-              target={label !== "Email" ? "_blank" : undefined}
+              target={label}
               rel="noopener noreferrer"
-              className="hover:text-[#f97316] transition-colors duration-200"
+              className="text-[#586275] hover:text-[#f97316] transition-colors duration-200"
             >
               {label}
             </a>
           ))}
         </div>
+        </div>
+        <span className="text-white font-semibold" style={{fontSize: '12px', color: '#cccccc'}}> Designed by Elena Pechurina</span>
       </div>
     </footer>
   );
