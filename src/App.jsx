@@ -267,7 +267,7 @@ function Hero() {
     <section
       id="overview"
       style={{
-        minHeight: "100vh",
+        // minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         paddingTop: 68,
@@ -278,7 +278,7 @@ function Hero() {
     >
       {/* ── Decorative background blobs ── */}
       {/* Large peach blob top-right */}
-      <div
+      {/* <div
         style={{
           position: "absolute",
           top: "-10%",
@@ -290,9 +290,9 @@ function Hero() {
             "radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
-      />
+      /> */}
       {/* Smaller coral blob bottom-right */}
-      <div
+      {/* <div
         style={{
           position: "absolute",
           bottom: "5%",
@@ -305,9 +305,9 @@ function Hero() {
           pointerEvents: "none",
           opacity: 0.15,
         }}
-      />
+      /> */}
       {/* Faint orange circle mid-left */}
-      <div
+      {/* <div
         style={{
           position: "absolute",
           top: "30%",
@@ -319,26 +319,12 @@ function Hero() {
             "radial-gradient(circle, rgba(253,186,116,0.15) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
-      />
-      {/* Faded balloon watermark behind phones */}
-      <div
-        style={{
-          position: "absolute",
-          right: "2%",
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: 480,
-          height: 480,
-          backgroundImage: `url(${img("welcome.png")})`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          opacity: 0.02,
-          pointerEvents: "none",
-          filter: "blur(10px)",
-        }}
-      />
+      /> */}
 
+<div className="bg-blob bg-blob-1" />
+<div className="bg-blob bg-blob-2" />
+<div className="bg-blob bg-blob-3" />
+      
       {/* ── Content ── */}
       <div
         style={{
